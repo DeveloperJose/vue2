@@ -39,7 +39,7 @@ const setProp = (el, name, val) => {
 const vendorNames = ['Webkit', 'Moz', 'ms']
 
 let emptyStyle
-const normalize = cached(function (prop) {
+const normalize = cached(function(prop) {
   emptyStyle = emptyStyle || document.createElement('div').style
   prop = camelize(prop)
   if (prop !== 'filter' && prop in emptyStyle) {
@@ -91,8 +91,10 @@ function updateStyle(oldVnode: VNodeWithData, vnode: VNodeWithData) {
   }
   for (name in newStyle) {
     cur = newStyle[name]
-    // ie9 setting to null has no effect, must use empty string
-    setProp(el, name, cur == null ? '' : cur)
+    if (cur !== oldStyle[name]) {
+      // ie9 setting to null has no effect, must use empty string
+      setProp(el, name, cur == null ? '' : cur)
+    }
   }
 }
 
